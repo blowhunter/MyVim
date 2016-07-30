@@ -1,10 +1,12 @@
 "config begin  
 "impressive : http://amix.dk/vim/vimrc.html  
-  
+
+" 放在顶部不会截断之前的加载，不然会有部分加载有问题
+"autocmd! bufwritepost _vimrc source % " vimrc文件修改之后自动加载。 windows。  
+autocmd! bufwritepost .vimrc source % " vimrc文件修改之后自动加载。 linux。  
 "==========================================  
 "General  
 "==========================================  
-  
 " history存储长度。  
 set history=1000         
  
@@ -22,11 +24,14 @@ set nocompatible
 set autoread          " 文件修改之后自动载入。  
 set shortmess=atI       " 启动的时候不显示那个援助索马里儿童的提示  
   
-" 取消备份。  
-" Turn backup off, since most stuff is in SVN, git et.c anyway...  
-set nobackup  
-set nowb  
-set noswapfile  
+" 修改备份。  
+" modify backup path, just in case...  
+set backup  
+set directory=~/backup/vim/temp " 临时备份目录
+set backupdir=~/backup/vim/backup " 备份目录                                                                                                                                
+set backupext=.vbak "指定备份文件辍 
+"set nowb  
+"set noswapfile
   
 "粘贴时保持格式  
 "set paste  
@@ -162,10 +167,10 @@ endif
 " file encode  
 "==========================================  
 " 设置新文件的编码为 UTF-8  
-set fileencoding=utf8  
+"set fileencoding=utf8  
 "set enc=2byte-gb18030  
 " 自动判断编码时，依次尝试以下编码：  
-"set fileencodings=ucs-bom,gb18030,gbk,utf-8,default  
+set fileencodings=utf8,ucs-bom,gb18030,gbk,default  
 " gb18030 最好在 UTF-8 前面，否则其它编码的文件极可能被误识为 UTF-8  
   
 " Use Unix as the standard file type  
@@ -181,8 +186,9 @@ set formatoptions+=B
 "others  
 "==========================================  
   
-autocmd! bufwritepost _vimrc source % " vimrc文件修改之后自动加载。 windows。  
-autocmd! bufwritepost .vimrc source % " vimrc文件修改之后自动加载。 linux。  
+
+"去除windows文本格式后面会显示的^M字符
+noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
   
   
 " 自动完成   
